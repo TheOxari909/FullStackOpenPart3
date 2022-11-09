@@ -1,0 +1,7 @@
+POST https://little-wildflower-3771.fly.dev/api/persons
+Content-Type: application/json
+
+{
+  "name": "Tosca",
+  "number": 112
+}
