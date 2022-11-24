@@ -36,9 +36,9 @@ app.get('/api/persons/:id', (req, res) => {
 app.get('/info', (req, res) => {
   const date = new Date()
   res.send(`<p>Phonebook has info for ${persons.length} people</p> <p>${date}</p>`)
-})
+  })
 
-app.delete('/api/persons/:id', (req, res) => {
+  app.delete('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id)
   persons = persons.filter(person => person.id !== id)
 
@@ -59,18 +59,22 @@ app.post('/api/persons', (req, res) => {
       error: "Name or number missing"
     })
   }
-  if (persons.find(person => person.name === body.name)) {
+  /* if (persons.find(person => person.name === body.name)) {
     return res.status(400).json({
       error: "Name must be unique"
-    })
-  }
+   })
+  } */
 
-  const person = {
+  const person = new Person ({
     name: body.name,
-    number: body.number,
-    id: generateId()
-  }
-  res.json(person)
+    number: body.number
+  })
+
+  person
+    .save()
+    .then(savedPerson => {
+      res.json(savedPerson)
+   })
 })
 
 const PORT = process.env.PORT
